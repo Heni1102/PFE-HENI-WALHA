@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>SKS Energy Admin</title>
+
+
+  <!-- Custom styles-->
+  <link href="css/style-admin.css" rel="stylesheet" />
+
+</head>
+<body>
+<div class="container">
+    <!--     SIDE AREA -->
+        <div class="sideArea">
+            <div class="avatar">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCNOdyoIXDDBztO_GC8MFLmG_p6lZ2lTDh1ZnxSDawl1TZY_Zw" alt="">
+                <div class="avatarName">Welcome,<br>SKS Energy</div>
+            </div>
+            <ul class="sideMenu">
+                <li><a href="admin page.html" class="has-submenu"><span class="fa fa-table"></span>PRODUCT</a>
+                    <ul class="submenu">
+                        <li><a href="#"><span class="fa fa-list"></span>Product List</a></li>
+                        <li><a href="#"><span class="fa fa-tags"></span>Category List</a></li>
+                    </ul>
+                </li>
+                <li><a href="Admin_news.html"><span class="fa fa-sitemap"></span>News List</a></li>
+                
+                <li><a href="Admin_Contact.html"><span class="fa fa-envelope-o"></span>Contact</a></li>
+            </ul>
+        </div>
+    <!--     SIDE AREA -->
+        <div class="mainArea">
+            <!-- BEGIN NAV -->
+            <nav class="navTop row">
+                <div class="menuIcon fl"><span class="fa fa-bars"></span></div>
+                <div class="account fr">
+                    <div class="name has-submenu">SKS Energy<span class="fa fa-angle-down"></span></div>
+                    <ul class="accountLinks submenu">
+                        <li><a href="index.html">View website</a></li>
+                        <li><a href="login.html">Log out<span class="fa fa-sign-out fr"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- END NAV -->
+            <!-- CONTAINER  -->
+            <div class="mainContent">  
+    <!-- LIST FORM -->
+    <div class="row filterGroup">
+        <form action="" method="POST" class="formSearch fl">
+            <input type="text" class="inputSearch" placeholder="Search">
+            <button type="submit" class="btnSearch"><i class="fa fa-search"></i></button>
+        </form>
+        <div class="areaFilter fr row">
+            <div class="boxSelect fr">
+                <div class="titleSelect">Sort by</div>
+                <ul class="optionSelect">
+                    <li sortIndex="0"><a href="">Alphabet</a></li>
+                    <li sortIndex="3"><a href="">Latest</a></li>
+                </ul>
+            </div>
+    <!--         FILTER -->
+            <div class="btnFilter fr bg-fff"><span class="fa fa-filter"></span>Filter</div>
+            <div class="boxFilter">
+                <div class="btnFilter"><span class="fa fa-close"></span>Close</div>
+    <!--             GROUP -->
+                <div class="groupInput">
+                    <select name="">
+                        <option value="">Category</option>
+                        <option value="">Category 01</option>
+                        <option value="">Category 02</option>
+                    </select>
+                    <select name="">
+                        <option value="">Author</option>
+                        <option value="">Author 01</option>
+                        <option value="">Author 02</option>
+                    </select>
+                </div>
+    <!--             END GROUP -->                       
+            </div>
+        </div>
+    </div>
+    <form action="" method="GET" name="listForm" class="form scrollX">
+        <div class="formHeader row">
+            <h2 class="text-1 fl">News List</h2>
+            <div class="fr">
+              <button type="submit" class="btnSave bg-1 text-fff text-bold fr">SAVE</button><a href="" class="btnAdd fa fa-plus bg-1 text-fff"></a>
+            </div>
+        </div>
+        <div class="table">
+            <div class="row bg-1">
+                <div class="cell cell-50 text-center text-fff">ID</div>
+                <div class="cell cell-100 text-center text-fff">CATEGORY</div>
+                <div class="cell cell-100 text-fff">IMAGE</div>
+                <div class="cell cell-100p text-fff">NAME</div>
+                <div class="cell cell-100 text-center text-fff"><input type="checkbox" class="checkbox checkAll" name="statusAll" target=".status"></div>
+                <div class="cell cell-100 text-center text-fff">EDIT</div>
+            </div>
+        <!--   BEGIN LOOP -->
+            <ul>
+                <li class="row">
+                    <div class="cell cell-50 text-center">1111</div>
+                    <div class="cell cell-100 text-center">1</div>
+                    <div class="cell cell-100 text-center">
+                        <a href=""><img src="http://bookstore.crunchpress.com/wp-content/uploads/2013/05/b2.jpg" alt="" width="50"></a>
+                    </div>
+                    <div class="cell cell-100p"><a href="">New 01</a></div>
+                    <div class="cell cell-100 text-center">
+                        <input type="hidden" class="status" name="status" value="0">
+                        <input type="checkbox" class="btnSwitch status" name="status">
+                    </div>
+                    <div class="cell cell-100 text-center">
+                        <a href="" class="btnEdit fa fa-pencil bg-1 text-fff"></a><a href="" class="btnRemove fa fa-remove bg-1 text-fff" onclick='return confirm("Do you really want to remove it ?")'></a>
+                    </div>
+                </li>
+                <li class="row">
+                    <div class="cell cell-50 text-center">1111</div>
+                    <div class="cell cell-100 text-center">1</div>
+                    <div class="cell cell-100 text-center">
+                        <a href=""><img src="http://bookstore.crunchpress.com/wp-content/uploads/2013/05/b2.jpg" alt="" width="50"></a>
+                    </div>
+                    <div class="cell cell-100p"><a href="">New 01</a></div>
+                    <div class="cell cell-100 text-center">
+                        <input type="hidden" class="status" name="status" value="0">
+                        <input type="checkbox" class="btnSwitch status" name="status">
+                    </div>
+                    <div class="cell cell-100 text-center">
+                        <a href="" class="btnEdit fa fa-pencil bg-1 text-fff"></a><a href="" class="btnRemove fa fa-remove bg-1 text-fff" onclick="return confirm('Do you really want to remove it ?')"></a>
+                    </div>
+                </li>
+            </ul>
+        <!--   END LOOP -->
+        </div>
+    </form>
+              
+    
+    <script src="js/admin.js"></script>
+</body></html>
