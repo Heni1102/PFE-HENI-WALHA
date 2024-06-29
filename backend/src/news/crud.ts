@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { getDB, news } from "../db";
-import type { NewsCreate } from "../db/types";
+import type { NewsCreate } from "../types";
 
 export const getOne = async (id: string) => {
 	const db = getDB();

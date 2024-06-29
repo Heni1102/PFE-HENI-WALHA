@@ -1,21 +1,16 @@
 import { Elysia } from "elysia";
-import { compareHashAsync, hashStringAsync } from "../utils";
+import { compareHashAsync, hashStringAsync, useJWT } from "../utils";
 import { t } from "elysia";
-import { getDB } from "../db";
+import { admins, getDB } from "../db";
+import type { JwtPayload } from "../types";
+import { eq } from "drizzle-orm";
 
-export const loginRequestSchema = t.Object({
+const loginRequestSchema = t.Object({
 	email: t.String(),
 	password: t.String(),
 });
 
-export const loginResponseSchema = t.Object({
-	id: t.String(),
-	email: t.String(),
-	username: t.String(),
-	refresh_token: t.String(),
-});
-
-export const retrieveAdminByEmail = async (email: string) => {
+const retrieveAdminByEmail = async (email: string) => {
 	const db = getDB();
 	const admin = db.query.admins.findFirst({
 		where: (admin, { eq }) => eq(admin.email, email),
@@ -23,26 +18,46 @@ export const retrieveAdminByEmail = async (email: string) => {
 	return await admin.execute();
 };
 
-export default new Elysia({ prefix: "/auth" })
-	.post(
-		"/login",
-		async ({ body, error }) => {
-			const admin = await retrieveAdminByEmail(body.email);
-			if (!admin) return error(404, "Not found");
+const updateToken = async (id: string, token: string) => {
+	const db = getDB();
+	const admin = db
+		.update(admins)
+		.set({ refresh_token: token })
+		.where(eq(admins.id, id))
+		.returning()
+		.catch((e) => {
+			console.error(e);
+			return undefined;
+		});
+	return await admin;
+};
 
-			const hash = await hashStringAsync(body.password);
-			const valid = await compareHashAsync(hash, admin.password);
-			if (!valid) return error(401, "Unauthorized");
+export default new Elysia({ prefix: "/auth" }).use(useJWT).post(
+	"/login",
+	async (ctx) => {
+		const admin = await retrieveAdminByEmail(ctx.body.email);
+		if (!admin) return ctx.error(404, "Not found");
 
-			return {
-				id: admin.id,
-				email: admin.email,
-				usename: admin.username,
-				refresh_token: admin.refresh_token,
-			};
-		},
-		{
-			body: loginRequestSchema,
-		},
-	)
-	.post("/refresh", () => "refresh");
+		const hash = await hashStringAsync(ctx.body.password);
+		const valid = await compareHashAsync(hash, admin.password);
+		if (!valid) return ctx.error(401, "Unauthorized");
+
+		const payload: JwtPayload = {
+			id: admin.id,
+			email: admin.email,
+			username: admin.username,
+		};
+
+		const jwt = await ctx.JWT.sign(payload);
+		const updated = await updateToken(admin.id, jwt);
+		if (!updated) return ctx.error(500, "Internal server error");
+
+		return {
+			...payload,
+			refresh_token: jwt,
+		};
+	},
+	{
+		body: loginRequestSchema,
+	},
+);

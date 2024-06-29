@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { getDB, products } from "../db";
-import type { ProductCreate } from "../db/types";
+import type { ProductCreate } from "../types";
 
 export const getOne = async (id: string) => {
 	const db = getDB();

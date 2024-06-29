@@ -1,8 +1,12 @@
 import { Elysia } from "elysia";
 import * as crud from "./crud";
-import { newsCRUD } from "../db/types";
+import { newsCRUD } from "../types";
+import { authGuard, useJWT } from "../utils";
+import bearer from "@elysiajs/bearer";
 
 export default new Elysia({ prefix: "/news" })
+	.use(useJWT)
+	.use(bearer())
 	.get("/:id", async (ctx) => {
 		const id = ctx.params.id;
 
@@ -24,7 +28,13 @@ export default new Elysia({ prefix: "/news" })
 			if (!created) return ctx.error(500, "Failed to create article");
 			return created[0];
 		},
-		{ body: newsCRUD.create },
+		{
+			body: newsCRUD.create,
+			async beforeHandle({ bearer, error, JWT }) {
+				const guard = await authGuard(bearer, JWT);
+				if (guard !== true) return error(guard.code, guard.msg);
+			},
+		},
 	)
 
 	.patch(
@@ -36,12 +46,27 @@ export default new Elysia({ prefix: "/news" })
 			if (!created) return ctx.error(500, "Failed to create article");
 			return created[0];
 		},
-		{ body: newsCRUD.update },
+		{
+			body: newsCRUD.update,
+			async beforeHandle({ bearer, error, JWT }) {
+				const guard = await authGuard(bearer, JWT);
+				if (guard !== true) return error(guard.code, guard.msg);
+			},
+		},
 	)
 
-	.delete("/:id", async (ctx) => {
-		const id = ctx.params.id;
-		const deleted = await crud.deleteOne(id);
-		if (!deleted) return ctx.error(500, "Failed to delete article");
-		return deleted[0];
-	});
+	.delete(
+		"/:id",
+		async (ctx) => {
+			const id = ctx.params.id;
+			const deleted = await crud.deleteOne(id);
+			if (!deleted) return ctx.error(500, "Failed to delete article");
+			return deleted[0];
+		},
+		{
+			async beforeHandle({ bearer, error, JWT }) {
+				const guard = await authGuard(bearer, JWT);
+				if (guard !== true) return error(guard.code, guard.msg);
+			},
+		},
+	);
