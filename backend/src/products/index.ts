@@ -4,12 +4,6 @@ import { productCRUD } from "../db/types";
 
 export default new Elysia({ prefix: "/produits" })
 	.get("/:id", async (ctx) => {
-		const profile = await ctx.jwt.verify(ctx.cookie.auth.value);
-
-		if (!profile) {
-			set.status = 401;
-			return "Unauthorized";
-		}
 
 		const id = ctx.params.id;
 
