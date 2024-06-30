@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 import * as crud from "./crud";
 import { productCRUD } from "../types";
-import { authGuard, useJWT } from "../utils";
+import { authGuard, uploadImageAsync, useJWT } from "../utils";
 import bearer from "@elysiajs/bearer";
 
 export default new Elysia({ prefix: "/produits" })
@@ -23,6 +23,12 @@ export default new Elysia({ prefix: "/produits" })
 		"/",
 		async (ctx) => {
 			const product = ctx.body;
+			const image_url = await uploadImageAsync(
+				product.PhotoUrl1,
+				`${product.label}_${product.code}`,
+			);
+			product.PhotoUrl1 = image_url;
+
 			const created = await crud.create(product);
 			if (!created) return ctx.error(500, "Failed to create product");
 			return created[0];

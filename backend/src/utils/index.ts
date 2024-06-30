@@ -1,6 +1,7 @@
 import cors from "@elysiajs/cors";
 import jwt from "@elysiajs/jwt";
 import type { JwtParam } from "../types";
+export * from "./image";
 
 export const hashStringAsync = async (str: string) => {
 	const bcryptHash = await Bun.password.hash(str, {
