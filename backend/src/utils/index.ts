@@ -1,6 +1,7 @@
 import cors from "@elysiajs/cors";
 import jwt from "@elysiajs/jwt";
 import type { JwtParam } from "../types";
+import preferences from "../preferences";
 export * from "./image";
 
 export const hashStringAsync = async (str: string) => {
@@ -26,6 +27,7 @@ export const useJWT = jwt({
 });
 
 export const authGuard = async (bearer: string | undefined, jwt: JwtParam) => {
+	if (!preferences.useAuth) return true;
 	jwt.verify;
 	if (!bearer) {
 		return { code: 400, msg: "Bearer token is required" };

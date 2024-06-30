@@ -27,3 +27,11 @@ export const admins = pgTable("admins", {
 	password: text("password").notNull(),
 	refresh_token: text("refresh_token").unique(),
 });
+
+export const contacts = pgTable("contacts", {
+	id: uuid("id").primaryKey().defaultRandom(),
+	name: text("name"),
+	email: text("email"),
+	phone: text("phone"),
+	message: text("message").notNull(),
+});

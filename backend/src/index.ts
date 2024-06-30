@@ -4,6 +4,7 @@ import products from "./products";
 import news from "./news";
 import auth from "./auth";
 import { useCors, useJWT } from "./utils";
+import contacts from "./contacts";
 
 const app = new Elysia()
 	.use(useCors)
@@ -13,6 +14,7 @@ const app = new Elysia()
 	.use(auth)
 	.use(products)
 	.use(news)
+	.use(contacts)
 
 	.listen(3001);
 

@@ -1,5 +1,5 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
-import { admins, news, products } from "./db/schema";
+import { admins, contacts, news, products } from "./db/schema";
 import { type Static, t } from "elysia";
 import type { PgTable } from "drizzle-orm/pg-core";
 import type { JWTPayloadSpec } from "@elysiajs/jwt";
@@ -39,6 +39,12 @@ export type adminCreate = Static<typeof adminCRUD.create>;
 export type adminSelect = Static<typeof adminCRUD.select>;
 export type adminUpdate = Static<typeof adminCRUD.update>;
 export type adminDelete = Static<typeof adminCRUD.delete>;
+
+export const contactCRUD = createCRUDTyping(contacts);
+export type contactCreate = Static<typeof contactCRUD.create>;
+export type contactSelect = Static<typeof contactCRUD.select>;
+export type contactUpdate = Static<typeof contactCRUD.update>;
+export type contactDelete = Static<typeof contactCRUD.delete>;
 
 export type JwtParam = {
 	readonly sign: (
